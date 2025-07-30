@@ -6,6 +6,7 @@ import "../App.css";
 const WhatILearned = () => {
     return (
         <>
+        <Header />
             <section className="hero">
                 <h2>What I Learned</h2>
                 <p>This page summarizes all the topics I learned during the TECH HUB Bootcamp</p>
@@ -86,15 +87,37 @@ const WhatILearned = () => {
                     <li>Using <code>useState</code> and <code>useEffect</code> hooks</li>
                     <li>Passing data via props</li>
                     <li>Component structure and nesting</li>
+                    <li>How to use async/await to handle asynchronous API calls.</li>
+                    <li>How to use <code>.then()</code> to handle promises in Axios.</li>
+                    <li>How <code>JSON.parse()</code>  works and how data comes from the backend.</li>
                     <li>
                     Resources:
                     <ul>
-                        <li><a href="https://www.w3schools.com/react/" target="_blank" rel="noopener noreferrer">W3Schools - React</a></li>
+                        <li><a href="https://youtube.com/playlist?list=PLpPqplz6dKxW5ZfERUPoYTtNUNvrEebAR&si=UF8OcBMhJ3UkxAZG" target="_blank">ReactJS Course for Biggner</a></li>
                     </ul>
                     </li>
                 </ul>
                 </div>
+                <div className="session">
+                <h2>⚛️ Session 6: React Router & Multi-Page Structure</h2>
+                <ul>
+                    <li>Using react-router-dom for navigation</li>
+                    <li>Creating multiple pages: Home, About, Services, Contact</li>
+                    <li>Building a reusable layout: Header and Footer</li>
+                    <li>Routing with <code>Routes</code> and <code>Route </code> components</li>
+                    <li>Component structure and nesting</li>
+                    <li>Displaying dynamic data with reusable components (e.g., Posts)</li>
+                    <li>Handling component layout using MUI(<code>Box</code> and <code>Grid </code>and<code>Typography</code>)</li>
+                </ul>
+                    <li>
+                    Resources:
+                    <ul>
+                        <li><a href="https://youtube.com/https://github.com/Asabeneh/30-Days-Of-React?list=PLpPqplz6dKxW5ZfERUPoYTtNUNvrEebAR&si=UF8OcBMhJ3UkxAZG" target="_blank">GitHUB ReactJS </a></li>
+                    </ul>
+                    </li>
+                </div>
             </section>
+            <Footer />
         </>
     );
 };

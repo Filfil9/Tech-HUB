@@ -8,113 +8,130 @@ import {
   Card,
   CardContent,
 } from "@mui/material";
+import { useParams, useNavigate } from "react-router-dom";
+import Header from "./Header";
+import Footer from "./Footer";
 
-// Helper component for displaying a single post
-function Post({ post }) {
-  return (
-    <Card
-      sx={{
-        height: "100%",
-        maxWidth: 700,
-        margin: "0 auto",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <CardContent
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          width: "100%",
-          height: "100%",
-          p: 2,
-        }}
-      >
-        <Typography variant="h6" gutterBottom align="center">
-          {post.title}
-        </Typography>
-        <Typography variant="body2" color="text.secondary" align="center">
-          {post.body}
-        </Typography>
-      </CardContent>
-    </Card>
-  );
-}
-
-// Main component for fetching and displaying the posts board
 function Posts() {
+  const { id } = useParams(); 
+  const navigate = useNavigate();
   const [allPosts, setAllPosts] = useState([]);
+  const [selectedPost, setSelectedPost] = useState(null);
   const [activePage, setActivePage] = useState(1);
   const itemsPerPage = 10;
 
   useEffect(() => {
-    const endpointUrl = "https://jsonplaceholder.typicode.com/posts";
-    fetch(endpointUrl)
-      .then((res) => res.json())
-      .then((fetchedData) => {
-        setAllPosts(fetchedData);
-      })
-      .catch((err) => {
-        console.log("There was an error", err);
-      });
-  }, []);
+    if (id) {
+      fetch(`https://jsonplaceholder.typicode.com/posts/${id}`)
+        .then((res) => res.json())
+        .then((data) => setSelectedPost(data))
+        .catch((err) => console.error("Error fetching post:", err));
+    } else {
+
+      fetch("https://jsonplaceholder.typicode.com/posts")
+        .then((res) => res.json())
+        .then((data) => setAllPosts(data))
+        .catch((err) => console.error("Error fetching posts:", err));
+    }
+  }, [id]);
 
   const lastItemIndex = activePage * itemsPerPage;
   const firstItemIndex = lastItemIndex - itemsPerPage;
   const paginatedPosts = allPosts.slice(firstItemIndex, lastItemIndex);
 
   return (
-    <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      minHeight="100vh"
-    >
-      <Container maxWidth="lg">
-        <Typography variant="h4" align="center" gutterBottom sx={{ my: 4 }}>
-          My Posts Board
-        </Typography>
+    <>
+      <Header />
 
-        <Grid container spacing={3} justifyContent="center">
-          {paginatedPosts.map((post) => (
-            <Grid item xs={12} sm={6} key={post.id}>
-              {/* The Post component is now used directly from this file */}
-              <Post post={post} />
+      <Container maxWidth="lg" sx={{ py: 5 }}>
+        {!id ? (
+          <>
+            <Typography variant="h4" align="center" gutterBottom>
+              My Posts Board
+            </Typography>
+
+            <Grid container spacing={3} justifyContent="center">
+              {paginatedPosts.map((post) => (
+                <Grid item xs={12} sm={6} key={post.id}>
+                  <Card
+                    sx={{
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-between",
+                      p: 2,
+                    }}
+                  >
+                    <CardContent>
+                      <Typography variant="h6" gutterBottom>
+                        {post.title}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {post.body}
+                      </Typography>
+                    </CardContent>
+                    <Button
+                      variant="contained" 
+                      size="small"
+                      onClick={() => navigate(`/posts/${post.id}`)}
+                      sx={{  mt: 2,
+                            alignSelf: "center", 
+                            color: "black",
+                            '&:hover': {
+                            backgroundColor: "#64b5f6",
+                              },
+                      }}
+                    >
+                      View Details
+                    </Button>
+                  </Card>
+                </Grid>
+              ))}
             </Grid>
-          ))}
-        </Grid>
 
-        <Box
-          mt={5}
-          mb={5}
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          gap={2}
-        >
-          <Button
-            variant="contained"
-            onClick={() => setActivePage(activePage - 1)}
-            disabled={activePage === 1}
-          >
-            Previous
-          </Button>
-
-          <Typography variant="body1">Page {activePage}</Typography>
-
-          <Button
-            variant="contained"
-            onClick={() => setActivePage(activePage + 1)}
-            disabled={lastItemIndex >= allPosts.length}
-          >
-            Next
-          </Button>
-        </Box>
+            <Box
+              mt={5}
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              gap={2}
+            >
+              <Button
+                variant="contained"
+                onClick={() => setActivePage(activePage - 1)}
+                disabled={activePage === 1}
+              >
+                Previous
+              </Button>
+              <Typography>Page {activePage}</Typography>
+              <Button
+                variant="contained"
+                onClick={() => setActivePage(activePage + 1)}
+                disabled={lastItemIndex >= allPosts.length}
+              >
+                Next
+              </Button>
+            </Box>
+          </>
+        ) : selectedPost ? (
+          <Box textAlign="center">
+            <Typography variant="h4" gutterBottom>
+              {selectedPost.title}
+            </Typography>
+            <Typography variant="body1" sx={{ mb: 4 }}>
+              {selectedPost.body}
+            </Typography>
+            <Button variant="contained" onClick={() => navigate("/posts")}>
+              ← Back to All Posts
+            </Button>
+          </Box>
+        ) : (
+          <Typography align="center">Loading...</Typography>
+        )}
       </Container>
-    </Box>
+
+      <Footer />
+    </>
   );
 }
 

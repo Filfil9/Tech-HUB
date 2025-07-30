@@ -7,6 +7,7 @@ import '../App.css';
 function Contact() {
     return (
         <>
+        <Header />
         <section className="hero">
             <h2>Contact Us</h2>
             <p>Have questions or need support? We'd love to hear from you!</p>
@@ -26,6 +27,8 @@ function Contact() {
             <p>Facebook | Instagram | GitHub</p>
             </div>
         </section>
+        
+        <Footer />
         </>
     );
 }

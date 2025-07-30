@@ -7,6 +7,7 @@ import '../App.css';
 function About() {
     return (
         <>
+        <Header />
         <section className="hero">
             <h2>About TECH HUB</h2>
             <p>We are a tech learning platform that empowers students through coding, projects, and real-life experience.</p>
@@ -22,6 +23,7 @@ function About() {
             <p>To build a global community of tech learners and creators.</p>
             </div>
         </section>
+        <Footer />
         </>
     );
 }

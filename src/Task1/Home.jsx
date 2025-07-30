@@ -6,6 +6,7 @@ import '../App.css';
 function Home() {
     return (
     <>
+    <Header />
             <section className="hero">
                 <h2>Welcome to TECH HUB</h2>
                 <p>Your Gateway To Technology Learning</p>
@@ -36,6 +37,7 @@ function Home() {
                 </div>
                 </div>
             </section>
+        <Footer />
             </>
         );
 }

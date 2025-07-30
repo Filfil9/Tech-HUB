@@ -7,6 +7,7 @@ import '../App.css';
 function Services() {
   return (
     <>
+    <Header />
       <section className="hero">
         <h2>Our Services</h2>
         <p>Explore the various services we offer to support your learning journey.</p>
@@ -26,6 +27,7 @@ function Services() {
           <p>Get expert reviews on your work and improve faster.</p>
         </div>
       </section>
+      <Footer />
     </>
   );
 }
